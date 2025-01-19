@@ -10,7 +10,7 @@
     "tasky": "./bin/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Erick Capilla",
   "license": "ISC",
   "description": "",
   "dependencies": {

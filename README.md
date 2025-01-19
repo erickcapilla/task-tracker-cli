@@ -5,7 +5,6 @@ Task tracker for cli (command-line) tool for managing tasks, built with node. Th
 ## Installation
 
 To use **Tasky**, first clone repository
-````
 ```bash
 #https
 git clone https://github.com/erickcapilla/task-tracker-cli.git
@@ -26,7 +25,7 @@ npm link
 ```
 ## Usage
 
-Type the help option to watch the instructions
+Type the flag option to watch the instructions
 
 ```bash
 tasky --help

@@ -3,7 +3,7 @@
 import fs from "fs"
 import { FILE_NAME, INFO_MESSAGE } from "../src/config.js"
 import { argv } from "node:process";
-import { add, update, del, markInProgress, markDone } from "../src/commands.js";
+import { add, update, del, markInProgress, markDone, listTasks } from "../src/commands.js";
 
 (() => {
   if(!fs.existsSync(FILE_NAME)) {
@@ -45,6 +45,11 @@ import { add, update, del, markInProgress, markDone } from "../src/commands.js";
 
   if(option === 'mark-done') {
     markDone(args)
+    return
+  }
+
+  if(option === 'list') {
+    listTasks(args)
     return
   }
 

@@ -11,3 +11,5 @@ export const INFO_MESSAGE = `
 
 export const ADD_MESSAGE = "Usage: tasky add <describe>"
 export const UPDATE_MESSAGE = "Usage: tasky update <id> <new describe>"
+export const DELETE_MESSAGE = "Usage: tasky delete <id>"
+

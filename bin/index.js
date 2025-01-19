@@ -3,7 +3,7 @@
 import fs from "fs"
 import { FILE_NAME, INFO_MESSAGE } from "../src/config.js"
 import { argv } from "node:process";
-import { add, update } from "../src/commands.js";
+import { add, update, del } from "../src/commands.js";
 
 (() => {
   if(!fs.existsSync(FILE_NAME)) {
@@ -24,12 +24,17 @@ import { add, update } from "../src/commands.js";
 
   if(option === 'add') {
     add(args)
-    return;
+    return
   }
 
   if(option === 'update') {
     update(args)
-    return;
+    return
+  }
+
+  if(option === 'delete') {
+    del(args)
+    return
   }
 
   console.error(INFO_MESSAGE)

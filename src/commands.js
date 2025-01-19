@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { FILE_NAME, ADD_MESSAGE, UPDATE_MESSAGE } from "./config.js"
+import { FILE_NAME, ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE } from "./config.js"
 
 export const add = (args) => {
   if(args.length !== 2) {
@@ -24,7 +24,7 @@ export const add = (args) => {
       const ids = content.map(task => task.id)
       let max = Math.max(...ids)
 
-      task.id = max++
+      task.id = ++max
     }
 
     content.push(task);
@@ -48,7 +48,7 @@ export const update = (args) => {
     const task = content.filter(item => item.id.toString() === args[1])
 
     if(task < 1) {
-      console.log("Task not found, wrong id.")
+      console.error("Task not found, wrong id.")
       return
     }
 
@@ -61,6 +61,28 @@ export const update = (args) => {
     fs.writeFile(FILE_NAME, JSON.stringify({ content: newContent }), error => {
       if(error) throw error
     });
+  })
+}
+
+export const del = (args) => {
+  if(args.length !== 2) {
+    console.error(DELETE_MESSAGE)
+    return
+  }
+
+  fs.readFile(FILE_NAME, (error, data) => {
+    const { content } = JSON.parse(data)
+
+    const newContent = content.filter(item => item.id.toString() !== args[1])
+
+    if(newContent.length === content.length) {
+      console.error("Task not found, wrong id.")
+      return
+    }
+
+    fs.writeFile(FILE_NAME, JSON.stringify(newContent), error => {
+      if(error) throw error
+    })
   })
 }
 

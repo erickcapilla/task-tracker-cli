@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { FILE_NAME, ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE } from "./config.js"
+import { FILE_NAME, ADD_MESSAGE, UPDATE_MESSAGE, DELETE_MESSAGE, PROGRESS_MESSAGE } from "./config.js"
 
 export const add = (args) => {
   if(args.length !== 2) {
@@ -31,6 +31,7 @@ export const add = (args) => {
 
     fs.writeFile(FILE_NAME, JSON.stringify({ content }), (err) => {
       if(err) throw err;
+      console.log(`Task added successfully (ID: ${task.id})`)
     })
   })
 }
@@ -80,7 +81,35 @@ export const del = (args) => {
       return
     }
 
-    fs.writeFile(FILE_NAME, JSON.stringify(newContent), error => {
+    fs.writeFile(FILE_NAME, JSON.stringify({ content: newContent }), error => {
+      if(error) throw error
+    })
+  })
+}
+
+export const markInProgress = (args) => {
+  if(args.length !== 2) {
+    console.error(PROGRESS_MESSAGE)
+    return
+  }
+
+  fs.readFile(FILE_NAME, (error, data) => {
+    const { content } = JSON.parse(data)
+
+    const date = new Date().toLocaleString()
+    const task = content.filter(item => item.id.toString() === args[1])
+
+    if(task < 1) {
+      console.error("Task not found, wrong id.")
+    }
+
+    const newTask = { ...task[0], status: "in-progress", updatedAt: date }
+
+    const newContent = content.map(item => {
+      return item.id.toString() === args[1] ? newTask : item
+    })
+
+    fs.writeFile(FILE_NAME, JSON.stringify({ content: newContent }), error => {
       if(error) throw error
     })
   })

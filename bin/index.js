@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 import fs from "fs"
-import { FILE_NAME } from "../src/config.js"
+import { FILE_NAME, INFO_MESSAGE } from "../src/config.js"
 import { argv } from "node:process";
-import { add } from "../src/commands.js";
+import { add, update } from "../src/commands.js";
 
 (() => {
   if(!fs.existsSync(FILE_NAME)) {
     const content = []
+
     fs.appendFile(FILE_NAME, JSON.stringify({ content }), (err) => {
       if(err) throw err
     })
@@ -17,15 +18,19 @@ import { add } from "../src/commands.js";
   
   const option = args[0]
 
+  if((option === "--help" || option === "-h") && args === 1) {
+    console.log(INFO_MESSAGE)
+  }
+
   if(option === 'add') {
     add(args)
     return;
   }
 
   if(option === 'update') {
-    console.log("Updating...")
+    update(args)
     return;
   }
 
-  console.log("Usage: tasky [option] <describe>\n\nOptions:\n")
+  console.error(INFO_MESSAGE)
 })();
